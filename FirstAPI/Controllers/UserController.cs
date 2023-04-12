@@ -23,7 +23,7 @@ namespace FirstAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet("login")]
+        [HttpPost("login")]
         public async Task<ActionResult<bool>> Login(UserLoginDTO login)
         {
             return await _userService.Login(login) ? Ok() : BadRequest();
