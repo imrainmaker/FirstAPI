@@ -9,11 +9,12 @@ namespace DAL.Models.DTO
 {
     public class UserAddDTO
     {
-        public UserAddDTO(string email, string password, string pseudo)
+        public UserAddDTO(string email, string password, string pseudo, string checkPassword)
         {
             Email = email;
             Password = password;
             Pseudo = pseudo;
+            CheckPassword = checkPassword;
         }
 
         [Required]
@@ -21,11 +22,15 @@ namespace DAL.Models.DTO
         public string Email { get; set; }
 
         [Required]
+        [MaxLength(100)]
+        public string Pseudo { get; set; }
+
+        [Required]
         [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,25}$")]
         public string Password { get; set; }
 
-        [Required]
-        [MaxLength(100)]
-        public string Pseudo { get; set; }
+        [Compare("Password")]
+        public string CheckPassword { get; set; }
+
     }
 }

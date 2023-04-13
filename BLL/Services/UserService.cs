@@ -3,6 +3,7 @@ using DAL.Interfaces;
 using DAL.Models;
 using DAL.Models.DTO;
 using DAL.Models.Mapper;
+using DAL.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,9 +23,10 @@ namespace BLL.Services
             _userRepository = userRepository;
         }
 
-        public async Task<User> Add(UserAddDTO userDTO)
+        public async Task<UserViewModel?> Add(UserAddDTO userDTO)
         {
-            return await _userRepository.Add(userDTO.ToUser());
+            User? user = await _userRepository.Add(userDTO.ToUser());
+            return  user?.ToUserViewModel();
         }
 
         public async Task<bool> Delete(int id)
@@ -33,24 +35,37 @@ namespace BLL.Services
             return await _userRepository.Delete(user);
         }
 
-        public async Task<IEnumerable<User?>> GetAll()
+        public async Task<IEnumerable<UserViewModel>?> GetAll()
         {
-            return await _userRepository.GetAll() ;
+            IEnumerable<User>? userList = await _userRepository.GetAll();
+            if(userList is null)
+            {
+                return null;
+            }
+            List<UserViewModel> userVMList = new List<UserViewModel>();
+            foreach (User u in userList)
+            {
+                userVMList.Add(u.ToUserViewModel());
+            }
+            return userVMList;
         }
 
-        public async Task<User?> GetByEmail(string email)
+        public async Task<UserViewModel?> GetByEmail(string email)
         {
-            return await _userRepository.GetByEmail(email);
+            User? user = await _userRepository.GetByEmail(email);
+            return user.ToUserViewModel();
         }
 
-        public async Task<User?> GetById(int id)
+        public async Task<UserViewModel?> GetById(int id)
         {
-            return await _userRepository.GetById(id);
+            User? user = await _userRepository.GetById(id);
+            return user.ToUserViewModel();
         }
 
-        public async Task<User?> GetByPseudo(string pseudo)
+        public async Task<UserViewModel?> GetByPseudo(string pseudo)
         {
-            return await _userRepository.GetByPseudo(pseudo);
+            User? user = await _userRepository.GetByPseudo(pseudo);
+            return user.ToUserViewModel();
         }
 
         public async Task<bool> Login(UserLoginDTO login)
@@ -64,40 +79,43 @@ namespace BLL.Services
             return false;
         }
 
-        public async Task<User?> UpdatePassword(UserPwdDTO password, int id)
+        public async Task<UserViewModel?> UpdatePassword(UserPwdDTO password, int id)
         {
             User? user = await _userRepository.GetById(id);
             if (user is not null && (user.Password == password.Password))
             {
-                user.Password =password.NewPassword;
-                return await _userRepository.UpdatePassword(user);
+                user.Password = password.NewPassword;
+                user = await _userRepository.UpdatePassword(user);
+                return user.ToUserViewModel();
             }
             return null;
         }
 
-        public async Task<User?> UpdatePhone(UserPhoneDTO phone, int id)
+        public async Task<UserPhoneViewModel?> UpdatePhone(UserPhoneDTO phone, int id)
         {
             User? user = await _userRepository.GetById(id);
             if(user is not null)
             {
                 user.Phone = phone.Phone;
-                return await _userRepository.UpdatePhone(user);
+                user = await _userRepository.UpdatePhone(user);
+                return user.ToUserPhoneViewModel();
             }
             return null;
         }
 
-        public async Task<User?> UpdateRole(UserRoleDTO role, int id)
+        public async Task<UserRoleViewModel?> UpdateRole(UserRoleDTO role, int id)
         {
             User? user = await _userRepository.GetById(id);
             if (user is not null && (role.Role == "admin" || role.Role == "user"))
             {
                 user.Role = role.Role;
-                return await _userRepository.UpdateRole(user);
+                user = await _userRepository.UpdateRole(user);
+                return user.ToUserRoleViewModel();
             }
             return null;
         }
 
-        public async Task<User?> UpdateUserProfil(UserProfilDTO profil, int id)
+        public async Task<UserProfilViewModel?> UpdateUserProfil(UserProfilDTO profil, int id)
         {
             User? user = await _userRepository.GetById(id);
             if (user is not null)
@@ -105,7 +123,8 @@ namespace BLL.Services
                 user.Pseudo = profil.Pseudo;
                 user.Firstname = profil.Firstname;
                 user.Lastname = profil.Lastname;
-                return await _userRepository.UpdateUserProfil(user);
+                user = await _userRepository.UpdateUserProfil(user);
+                return user.ToUserProfilViewModel();
             }
             return null;
         }
