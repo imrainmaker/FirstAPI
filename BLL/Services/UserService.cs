@@ -53,19 +53,19 @@ namespace BLL.Services
         public async Task<UserViewModel?> GetByEmail(string email)
         {
             User? user = await _userRepository.GetByEmail(email);
-            return user.ToUserViewModel();
+            return user is not null ? user.ToUserViewModel() : null;
         }
 
         public async Task<UserViewModel?> GetById(int id)
         {
             User? user = await _userRepository.GetById(id);
-            return user.ToUserViewModel();
+            return user is not null ? user.ToUserViewModel() : null;
         }
 
         public async Task<UserViewModel?> GetByPseudo(string pseudo)
         {
             User? user = await _userRepository.GetByPseudo(pseudo);
-            return user.ToUserViewModel();
+            return user is not null ? user.ToUserViewModel() : null;
         }
 
         public async Task<bool> Login(UserLoginDTO login)

@@ -37,7 +37,7 @@ namespace FirstAPI.Controllers
         }
 
         [HttpGet("email")]
-        public async Task<ActionResult<UserViewModel?>> GetByEmail(string email)
+        public async Task<ActionResult<UserViewModel>> GetByEmail(string email)
         {
             if (ModelState.IsValid)
             {
@@ -49,7 +49,7 @@ namespace FirstAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserViewModel?>> GetById(int id)
+        public async Task<ActionResult<UserViewModel>> GetById(int id)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +61,7 @@ namespace FirstAPI.Controllers
         }
 
         [HttpGet("pseudo")]
-        public async Task<ActionResult<UserViewModel?>> GetByPseudo(string pseudo)
+        public async Task<ActionResult<UserViewModel>> GetByPseudo(string pseudo)
         {
             if (ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace FirstAPI.Controllers
 
 
         [HttpPost("create")]
-        public async Task<ActionResult<UserViewModel?>> Add(UserAddDTO userDTO)
+        public async Task<ActionResult<UserViewModel>> Add(UserAddDTO userDTO)
         {
 
             if (ModelState.IsValid)
@@ -87,8 +87,8 @@ namespace FirstAPI.Controllers
 
         }
 
-        [HttpPut("editprofil/{id}")]
-        public async Task<ActionResult<UserProfilViewModel?>> UpdateProfil(UserProfilDTO profil, int id)
+        [HttpPatch("editprofil/{id}")]
+        public async Task<ActionResult<UserProfilViewModel>> UpdateProfil(UserProfilDTO profil, int id)
         {
             if (ModelState.IsValid)
             {
@@ -99,8 +99,8 @@ namespace FirstAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPatch("editpassword/{id}")]
-        public async Task<ActionResult<UserViewModel?>> UpdatePassword(UserPwdDTO password, int id)
+        [HttpPatch("password/{id}")]
+        public async Task<ActionResult<UserViewModel>> UpdatePassword(UserPwdDTO password, int id)
         {
             if (ModelState.IsValid)
             {
@@ -111,8 +111,8 @@ namespace FirstAPI.Controllers
             return BadRequest();
         }
 
-        [HttpPatch("editphone/{id}")]
-        public async Task<ActionResult<UserPhoneViewModel?>> UpdatePhone(UserPhoneDTO phone, int id)
+        [HttpPatch("phone/{id}")]
+        public async Task<ActionResult<UserPhoneViewModel>> UpdatePhone(UserPhoneDTO phone, int id)
         {
             if (ModelState.IsValid)
             {
@@ -124,8 +124,8 @@ namespace FirstAPI.Controllers
         }
 
      
-        [HttpPatch("editrole/{id}")]
-        public async Task<ActionResult<UserRoleViewModel?>> UpdateRole(UserRoleDTO role, int id)
+        [HttpPatch("role/{id}")]
+        public async Task<ActionResult<UserRoleViewModel>> UpdateRole(UserRoleDTO role, int id)
         {
             if (ModelState.IsValid)
             {
