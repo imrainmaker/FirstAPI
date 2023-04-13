@@ -85,7 +85,7 @@ namespace BLL.Services
             if (user is not null && (user.Password == password.Password))
             {
                 user.Password = password.NewPassword;
-                user = await _userRepository.UpdatePassword(user);
+                user = await _userRepository.UpdateUser(user);
                 return user.ToUserViewModel();
             }
             return null;
@@ -97,7 +97,7 @@ namespace BLL.Services
             if(user is not null)
             {
                 user.Phone = phone.Phone;
-                user = await _userRepository.UpdatePhone(user);
+                user = await _userRepository.UpdateUser(user);
                 return user.ToUserPhoneViewModel();
             }
             return null;
@@ -109,7 +109,7 @@ namespace BLL.Services
             if (user is not null && (role.Role == "admin" || role.Role == "user"))
             {
                 user.Role = role.Role;
-                user = await _userRepository.UpdateRole(user);
+                user = await _userRepository.UpdateUser(user);
                 return user.ToUserRoleViewModel();
             }
             return null;
@@ -123,7 +123,7 @@ namespace BLL.Services
                 user.Pseudo = profil.Pseudo;
                 user.Firstname = profil.Firstname;
                 user.Lastname = profil.Lastname;
-                user = await _userRepository.UpdateUserProfil(user);
+                user = await _userRepository.UpdateUser(user);
                 return user.ToUserProfilViewModel();
             }
             return null;

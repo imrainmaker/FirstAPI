@@ -100,55 +100,7 @@ namespace DAL.Repositories
             }
         }
 
-        public async Task<User?> UpdatePassword(User user)
-        {
-            try
-            {
-                _context.users.Update(user);
-                await _context.SaveChangesAsync();
-                return user;
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-        }
-
-        public async Task<User?> UpdatePhone(User user)
-        {
-            try
-            {
-                _context.users.Update(user);
-                await _context.SaveChangesAsync();
-                return user;
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-        }
-
-        public async Task<User?> UpdateRole(User user)
-        {
-            try
-            {
-                _context.users.Update(user);
-                await _context.SaveChangesAsync();
-                return user;
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-        }
-
-        public async Task<User?> UpdateUserProfil(User user)
+        public async Task<User?> UpdateUser(User user)
         {
             try
             {

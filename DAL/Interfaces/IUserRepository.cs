@@ -22,13 +22,7 @@ namespace DAL.Interfaces
 
         public Task<bool> Delete(User user);
 
-        public Task<User?> UpdatePassword(User user);
-
-        public Task<User?> UpdatePhone(User user);
-
-        public Task<User?> UpdateRole(User user);
-
-        public Task<User?> UpdateUserProfil(User user);
+        public Task<User?> UpdateUser(User user);
         
     }
 }
