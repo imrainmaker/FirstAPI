@@ -32,7 +32,7 @@ namespace BLL.Services
         public async Task<bool> Delete(int id)
         {
             User? user = await _userRepository.GetById(id);
-            return await _userRepository.Delete(user);
+            return user is not null ? await _userRepository.Delete(user) : false;
         }
 
         public async Task<IEnumerable<UserViewModel>?> GetAll()
