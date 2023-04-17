@@ -17,10 +17,12 @@ namespace BLL.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IJwtService _jwtService;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IJwtService jwtService)
         {
             _userRepository = userRepository;
+            _jwtService = jwtService;
         }
 
         public async Task<UserViewModel?> Add(UserAddDTO userDTO)
@@ -68,15 +70,15 @@ namespace BLL.Services
             return user is not null ? user.ToUserViewModel() : null;
         }
 
-        public async Task<bool> Login(UserLoginDTO login)
+        public async Task<string?> Login(UserLoginDTO login)
         {
 
             User? user = await _userRepository.GetByEmail(login.Email);
             if (user is not null && (user.Password == login.Password))
             {
-                return true;
+                return _jwtService.GenerateToken(user);
             }
-            return false;
+            return null;
         }
 
         public async Task<UserViewModel?> UpdatePassword(UserPwdDTO password, int id)
@@ -91,31 +93,31 @@ namespace BLL.Services
             return null;
         }
 
-        public async Task<UserPhoneViewModel?> UpdatePhone(UserPhoneDTO phone, int id)
+        public async Task<UserViewModel?> UpdatePhone(UserPhoneDTO phone, int id)
         {
             User? user = await _userRepository.GetById(id);
             if(user is not null)
             {
                 user.Phone = phone.Phone;
                 user = await _userRepository.UpdateUser(user);
-                return user.ToUserPhoneViewModel();
+                return user.ToUserViewModel();
             }
             return null;
         }
 
-        public async Task<UserRoleViewModel?> UpdateRole(UserRoleDTO role, int id)
+        public async Task<UserViewModel?> UpdateRole(UserRoleDTO role, int id)
         {
             User? user = await _userRepository.GetById(id);
             if (user is not null && (role.Role == "admin" || role.Role == "user"))
             {
                 user.Role = role.Role;
                 user = await _userRepository.UpdateUser(user);
-                return user.ToUserRoleViewModel();
+                return user.ToUserViewModel();
             }
             return null;
         }
 
-        public async Task<UserProfilViewModel?> UpdateUserProfil(UserProfilDTO profil, int id)
+        public async Task<UserViewModel?> UpdateUserProfil(UserProfilDTO profil, int id)
         {
             User? user = await _userRepository.GetById(id);
             if (user is not null)
@@ -124,7 +126,7 @@ namespace BLL.Services
                 user.Firstname = profil.Firstname;
                 user.Lastname = profil.Lastname;
                 user = await _userRepository.UpdateUser(user);
-                return user.ToUserProfilViewModel();
+                return user.ToUserViewModel();
             }
             return null;
         }

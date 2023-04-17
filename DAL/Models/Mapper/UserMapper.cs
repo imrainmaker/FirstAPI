@@ -31,41 +31,5 @@ namespace DAL.Models.Mapper
                 Role = user.Role
             };
         }
-
-        public static UserPhoneViewModel ToUserPhoneViewModel(this User user)
-        {
-            return new UserPhoneViewModel
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Pseudo = user.Pseudo,
-                Phone = user.Phone,
-
-            };
-        }
-
-        public static UserProfilViewModel ToUserProfilViewModel(this User user)
-        {
-            return new UserProfilViewModel
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Pseudo = user.Pseudo,
-                Lastname = user.Lastname,
-                Firstname = user.Firstname,
-            };
-        }
-
-        public static UserRoleViewModel ToUserRoleViewModel(this User user)
-        {
-            return new UserRoleViewModel
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Pseudo = user.Pseudo,
-                Role = user.Role
-            };
-        }
-
     }
 }

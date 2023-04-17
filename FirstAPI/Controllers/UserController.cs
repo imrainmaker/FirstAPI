@@ -25,9 +25,10 @@ namespace FirstAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<bool>> Login(UserLoginDTO login)
+        public async Task<ActionResult<string?>> Login(UserLoginDTO login)
         {
-            return await _userService.Login(login) ? Ok() : BadRequest();
+            string? token = await _userService.Login(login);
+            return token is not null ? Ok(token) : BadRequest();
         }
 
         [HttpGet]
@@ -88,11 +89,11 @@ namespace FirstAPI.Controllers
         }
 
         [HttpPatch("editprofil/{id}")]
-        public async Task<ActionResult<UserProfilViewModel>> UpdateProfil(UserProfilDTO profil, int id)
+        public async Task<ActionResult<UserViewModel>> UpdateProfil(UserProfilDTO profil, int id)
         {
             if (ModelState.IsValid)
             {
-                UserProfilViewModel? user = await _userService.UpdateUserProfil(profil, id);
+                UserViewModel? user = await _userService.UpdateUserProfil(profil, id);
                 return user is not null ? Ok(user) : BadRequest();
             }
 
@@ -112,11 +113,11 @@ namespace FirstAPI.Controllers
         }
 
         [HttpPatch("phone/{id}")]
-        public async Task<ActionResult<UserPhoneViewModel>> UpdatePhone(UserPhoneDTO phone, int id)
+        public async Task<ActionResult<UserViewModel>> UpdatePhone(UserPhoneDTO phone, int id)
         {
             if (ModelState.IsValid)
             {
-                UserPhoneViewModel? user = await _userService.UpdatePhone(phone, id);
+                UserViewModel? user = await _userService.UpdatePhone(phone, id);
                 return user is not null ? Ok(user) : BadRequest();
             }
 
@@ -125,11 +126,11 @@ namespace FirstAPI.Controllers
 
      
         [HttpPatch("role/{id}")]
-        public async Task<ActionResult<UserRoleViewModel>> UpdateRole(UserRoleDTO role, int id)
+        public async Task<ActionResult<UserViewModel>> UpdateRole(UserRoleDTO role, int id)
         {
             if (ModelState.IsValid)
             {
-                UserRoleViewModel? user = await _userService.UpdateRole(role, id);
+                UserViewModel? user = await _userService.UpdateRole(role, id);
                 return user is not null ? Ok(user) : BadRequest();
             }
 

@@ -14,7 +14,7 @@ namespace BLL.Interfaces
 
         public Task<UserViewModel?> GetByPseudo(string pseudo);
 
-        public Task<bool> Login(UserLoginDTO login);
+        public Task<string?> Login(UserLoginDTO login);
 
         public Task<UserViewModel?> Add(UserAddDTO user);
 
@@ -22,11 +22,11 @@ namespace BLL.Interfaces
 
         public Task<UserViewModel?> UpdatePassword(UserPwdDTO password, int id);
 
-        public Task<UserPhoneViewModel?> UpdatePhone(UserPhoneDTO phone, int id);
+        public Task<UserViewModel?> UpdatePhone(UserPhoneDTO phone, int id);
 
-        public Task<UserRoleViewModel?> UpdateRole(UserRoleDTO role, int id);
+        public Task<UserViewModel?> UpdateRole(UserRoleDTO role, int id);
 
-        public Task<UserProfilViewModel?> UpdateUserProfil(UserProfilDTO profil, int id);
+        public Task<UserViewModel?> UpdateUserProfil(UserProfilDTO profil, int id);
 
     }
 }
