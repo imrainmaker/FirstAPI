@@ -10,6 +10,9 @@ using DAL.Models;
 using BLL.Interfaces;
 using DAL.Models.DTO;
 using DAL.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+using System.Security.Claims;
 
 namespace FirstAPI.Controllers
 {
@@ -38,8 +41,11 @@ namespace FirstAPI.Controllers
         }
 
         [HttpGet("email")]
+        [Authorize]
         public async Task<ActionResult<UserViewModel>> GetByEmail(string email)
         {
+            
+
             if (ModelState.IsValid)
             {
                 UserViewModel? user = await _userService.GetByEmail(email);
@@ -50,6 +56,7 @@ namespace FirstAPI.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<UserViewModel>> GetById(int id)
         {
             if (ModelState.IsValid)
@@ -62,6 +69,7 @@ namespace FirstAPI.Controllers
         }
 
         [HttpGet("pseudo")]
+        [Authorize]
         public async Task<ActionResult<UserViewModel>> GetByPseudo(string pseudo)
         {
             if (ModelState.IsValid)
@@ -89,8 +97,14 @@ namespace FirstAPI.Controllers
         }
 
         [HttpPatch("editprofil/{id}")]
+        [Authorize]
         public async Task<ActionResult<UserViewModel>> UpdateProfil(UserProfilDTO profil, int id)
         {
+            if(id.ToString() != User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value)
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 UserViewModel? user = await _userService.UpdateUserProfil(profil, id);
@@ -101,8 +115,14 @@ namespace FirstAPI.Controllers
         }
 
         [HttpPatch("password/{id}")]
+        [Authorize]
         public async Task<ActionResult<UserViewModel>> UpdatePassword(UserPwdDTO password, int id)
         {
+            if (id.ToString() != User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value)
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 UserViewModel? user = await _userService.UpdatePassword(password, id);
@@ -113,8 +133,14 @@ namespace FirstAPI.Controllers
         }
 
         [HttpPatch("phone/{id}")]
+        [Authorize]
         public async Task<ActionResult<UserViewModel>> UpdatePhone(UserPhoneDTO phone, int id)
         {
+            if (id.ToString() != User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value)
+            {
+                return Unauthorized();
+            }
+
             if (ModelState.IsValid)
             {
                 UserViewModel? user = await _userService.UpdatePhone(phone, id);
@@ -126,6 +152,7 @@ namespace FirstAPI.Controllers
 
      
         [HttpPatch("role/{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult<UserViewModel>> UpdateRole(UserRoleDTO role, int id)
         {
             if (ModelState.IsValid)
@@ -138,6 +165,7 @@ namespace FirstAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<ActionResult<bool>> Delete(int id)
         {
             return await _userService.Delete(id) ? Ok() : BadRequest();
